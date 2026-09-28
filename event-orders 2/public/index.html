@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<base target="_top">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nordic Health Supplements | Special Offers</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+  :root{
+    --navy:#1E3A5F; --navy-2:#2B4A6F; --ink:#22405F; --muted:#5B6F86;
+    --red:#E0482B; --band:#ECEEF2; --paper:#FFFFFF; --bg:#F4F5F8; --line:#2B4A6F;
+    --ok:#1F7A55;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{background:var(--bg);color:var(--ink);font-family:"Open Sans",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+  .paper{max-width:1040px;margin:24px auto;background:var(--paper);box-shadow:0 1px 3px rgba(30,58,95,.08),0 12px 40px rgba(30,58,95,.08);padding:48px 56px 32px;min-height:calc(100vh - 48px)}
+  @media (max-width:700px){.paper{margin:0;padding:24px 16px 120px;box-shadow:none;min-height:100vh}}
+
+  /* Header */
+  header{display:flex;justify-content:space-between;align-items:flex-start;gap:16px}
+  .title{border-left:2px solid var(--navy);padding-left:18px;font-family:Lexend,sans-serif;color:var(--navy);line-height:1.12}
+  .title .l1{font-weight:300;font-size:clamp(24px,4vw,38px)}
+  .title .l2{font-weight:600;font-size:clamp(26px,4.3vw,40px)}
+  .logo{width:84px;height:84px;flex:none}
+  @media (max-width:700px){.logo{width:60px;height:60px}}
+
+  /* Stepper */
+  .steps{display:flex;gap:0;margin:36px 0 28px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .step{flex:1;display:flex;align-items:center;gap:10px;padding:12px 8px;font-family:Lexend;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:#9AA8B8;background:none;border:0;cursor:default;text-align:left}
+  .step .n{width:26px;height:26px;border-radius:50%;border:1.5px solid currentColor;display:grid;place-items:center;font-weight:600;font-size:13px;flex:none}
+  .step.active{color:var(--navy);font-weight:600}
+  .step.active .n{background:var(--navy);border-color:var(--navy);color:#fff}
+  .step.done{color:var(--navy);cursor:pointer}
+  .step.done .n{background:var(--band)}
+  .step + .step{border-left:1px solid var(--band)}
+  @media (max-width:560px){.step .lbl{display:none}.step{justify-content:center}}
+
+  h2{font-family:Lexend;font-weight:500;color:var(--navy);font-size:22px;margin:0 0 6px}
+  .sub{color:var(--muted);margin:0 0 24px;font-size:14px}
+
+  /* Step 1: bands like the order sheet */
+  .bands{border-top:1.5px solid var(--line);border-bottom:1.5px solid var(--line);max-width:640px}
+  .band{display:grid;grid-template-columns:180px 1fr;align-items:center;padding:4px 14px}
+  .band:nth-child(odd){background:var(--band)}
+  .band label{font-weight:700;font-size:13px;letter-spacing:.04em;color:var(--navy);text-transform:uppercase}
+  .band input{border:0;background:transparent;font:inherit;font-size:16px;color:var(--ink);padding:14px 0;outline:none;width:100%}
+  .band input::placeholder{color:#A3B0BF}
+  .band:focus-within{box-shadow:inset 3px 0 0 var(--red)}
+  @media (max-width:560px){.band{grid-template-columns:1fr;padding:8px 12px 2px}.band input{padding:6px 0 10px}}
+  .consent{display:flex;gap:10px;align-items:flex-start;margin:18px 0 0;font-size:13px;color:var(--muted);max-width:640px;line-height:1.5}
+  .consent input{margin-top:3px;accent-color:var(--navy);width:16px;height:16px;flex:none}
+  .err{color:var(--red);font-size:13px;min-height:20px;margin-top:10px}
+
+  /* Buttons */
+  .actions{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:28px}
+  .btn{font-family:Lexend;font-weight:500;font-size:15px;border-radius:999px;padding:13px 26px;border:1.5px solid var(--navy);cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:transform .08s,background .15s}
+  .btn:active{transform:scale(.98)}
+  .btn.primary{background:var(--navy);color:#fff}
+  .btn.primary:hover{background:#15304F}
+  .btn.ghost{background:#fff;color:var(--navy)}
+  .btn.pay{background:var(--red);border-color:var(--red);color:#fff;font-size:17px;padding:16px 30px}
+  .btn[disabled]{opacity:.45;cursor:not-allowed}
+
+  /* Step 2: product grid like the flyer */
+  .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:34px 28px}
+  @media (max-width:900px){.grid{grid-template-columns:repeat(3,1fr)}}
+  @media (max-width:640px){.grid{grid-template-columns:repeat(2,1fr);gap:26px 16px}}
+  .card{display:flex;flex-direction:column}
+  .only{font-family:Lexend;font-weight:700;color:var(--red);font-size:17px;letter-spacing:.02em}
+  .pic{height:112px;display:flex;align-items:flex-end;justify-content:flex-start;margin:8px 0 2px;padding-left:4px}
+  .pic svg,.pic img{height:104px;width:auto;max-width:100%}
+  .size{font-size:11px;color:#6E7F92;margin:2px 0 6px}
+  .rule{border-top:2px solid var(--line)}
+  .pname{font-family:Lexend;font-weight:500;color:var(--navy);font-size:16px;line-height:1.25;margin:10px 0 4px;min-height:40px}
+  .rrp{font-size:12px;color:var(--ink);margin-bottom:8px}
+  .qty{display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--line);padding-top:10px;margin-top:auto}
+  .stepper{display:flex;align-items:center;border:1.5px solid var(--navy);border-radius:999px;overflow:hidden}
+  .stepper button{width:36px;height:34px;border:0;background:#fff;color:var(--navy);font-size:20px;line-height:1;cursor:pointer}
+  .stepper button:hover{background:var(--band)}
+  .stepper span{min-width:28px;text-align:center;font-family:Lexend;font-weight:600;color:var(--navy)}
+  .card.sel .stepper{background:var(--navy)}
+  .card.sel .stepper span{color:#fff}
+  .add{font-family:Lexend;font-size:13px;color:var(--muted)}
+  .card.sel .add{color:var(--red);font-weight:600}
+
+  .bar{position:sticky;bottom:0;background:#fff;border-top:1.5px solid var(--line);margin:32px -56px -32px;padding:14px 56px;display:flex;align-items:center;justify-content:space-between;gap:12px;z-index:5}
+  @media (max-width:700px){.bar{position:fixed;left:0;right:0;margin:0;padding:12px 16px}}
+  .bar .sum{font-family:Lexend;color:var(--navy)}
+  .bar .sum b{font-size:20px}
+  .bar .save{font-size:12px;color:var(--red);font-weight:600;display:block}
+
+  /* Step 3: order sheet table */
+  table.sheet{width:100%;border-collapse:collapse;font-size:14px}
+  .sheet th{font-weight:700;font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--navy);text-align:left;padding:10px 12px;border-top:1.5px solid var(--line);border-bottom:1.5px solid var(--line)}
+  .sheet td{padding:10px 12px;font-weight:600;color:var(--navy)}
+  .sheet tbody tr:nth-child(odd){background:var(--band)}
+  .sheet .num{text-align:right;white-space:nowrap}
+  .sheet .rrpc{color:var(--muted);font-weight:400;text-decoration:line-through}
+  .sheet tfoot td{border-top:1.5px solid var(--line);font-family:Lexend;font-size:16px}
+  .sheet tfoot .save td{border:0;font-size:13px;color:var(--red);padding-top:0}
+  @media (max-width:560px){.sheet{font-size:12.5px}.sheet td,.sheet th{padding:9px 6px}}
+  .who{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin:22px 0 0;border-top:1.5px solid var(--line);border-bottom:1.5px solid var(--line)}
+  .who div{padding:10px 12px}
+  .who div:nth-child(odd){background:var(--band)}
+  .who small{display:block;font-weight:700;font-size:11px;letter-spacing:.05em;color:var(--navy);text-transform:uppercase}
+  .who span{font-size:14px;word-break:break-word}
+  @media (max-width:640px){.who{grid-template-columns:1fr}}
+
+  .paybox{margin-top:30px;border-top:1.5px solid var(--line);border-bottom:1.5px solid var(--line);padding:26px 0;display:grid;grid-template-columns:auto 1fr;gap:28px;align-items:center}
+  @media (max-width:640px){.paybox{grid-template-columns:1fr;justify-items:start}}
+  #qr{width:148px;height:148px;padding:6px;background:#fff}
+  #qr img,#qr canvas{width:136px!important;height:136px!important}
+  .scan{font-family:Lexend;color:var(--navy);font-size:22px;line-height:1.3}
+  .scan b{font-weight:600}
+  .scan .light{font-weight:300;font-size:18px;display:block}
+  .okline{display:inline-flex;gap:8px;align-items:center;color:var(--ok);font-weight:700;font-size:14px;margin-bottom:14px}
+  .note{font-size:13px;color:var(--muted);margin-top:12px}
+  .link{background:none;border:0;color:var(--navy);text-decoration:underline;font:inherit;font-size:14px;cursor:pointer;padding:0}
+
+  footer{margin-top:44px}
+  .valid{font-family:Lexend;font-weight:300;color:var(--navy);font-size:18px;margin:0 0 20px}
+  .foot{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;border-top:1px solid var(--line);padding-top:10px}
+  .copy{font-size:10px;color:#7B8A9B;line-height:1.5;max-width:720px}
+  .country{text-align:right;font-weight:700;color:var(--navy);font-size:13px;letter-spacing:.04em}
+  .country small{display:block;font-weight:400;color:#7B8A9B;font-size:10px;margin-top:4px}
+  .demo{background:#FFF4E5;color:#8A4B00;font-size:12px;padding:6px 10px;border-radius:6px;display:inline-block;margin-bottom:14px}
+  .hidden{display:none!important}
+  .spin{width:16px;height:16px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:s .7s linear infinite}
+  @keyframes s{to{transform:rotate(360deg)}}
+
+  /* ---- Added: delivery step ---- */
+  .choices{display:grid;grid-template-columns:repeat(2,1fr);gap:0;max-width:760px;border-top:1.5px solid var(--line);border-bottom:1.5px solid var(--line)}
+  @media (max-width:640px){.choices{grid-template-columns:1fr}}
+  .choice{position:relative;display:grid;grid-template-columns:auto 1fr auto;gap:4px 14px;align-items:start;padding:18px 16px;cursor:pointer;background:#fff}
+  .choice + .choice{border-left:1px solid var(--band)}
+  @media (max-width:640px){.choice + .choice{border-left:0;border-top:1px solid var(--band)}}
+  .choice input{margin:4px 0 0;accent-color:var(--navy);width:18px;height:18px;grid-row:span 2}
+  .choice .ct{font-family:Lexend;font-weight:500;color:var(--navy);font-size:17px}
+  .choice .cp{font-family:Lexend;font-weight:600;color:var(--navy);font-size:15px;white-space:nowrap}
+  .choice .cd{grid-column:2 / span 2;font-size:13px;color:var(--muted);line-height:1.45}
+  .choice:has(input:checked){background:var(--band);box-shadow:inset 3px 0 0 var(--red)}
+  .choice.off{display:none}
+  #addr{margin-top:22px}
+  .band select{border:0;background:transparent;font:inherit;font-size:16px;color:var(--ink);padding:14px 0;outline:none;width:100%}
+  @media (max-width:560px){.band select{padding:6px 0 10px}}
+  .opt{font-weight:400;text-transform:none;letter-spacing:0;color:var(--muted)}
+  .consent a{color:var(--navy)}
+
+  /* ---- Added: stock ---- */
+  .left{font-size:11px;font-weight:700;color:var(--red);margin:0 0 6px;min-height:15px}
+  .card.out{opacity:.45}
+  .card.out .stepper button{cursor:not-allowed}
+
+  /* ---- Added: review shipping line + status page ---- */
+  .sheet tfoot .sub-row td{border-top:1.5px solid var(--line);font-family:"Open Sans",sans-serif;font-size:14px;font-weight:600}
+  .sheet tfoot .sub-row + tr td{border-top:0}
+  .who.four{grid-template-columns:repeat(4,1fr)}
+  @media (max-width:900px){.who.four{grid-template-columns:repeat(2,1fr)}}
+  @media (max-width:640px){.who.four{grid-template-columns:1fr}}
+  .status{max-width:640px;border-top:1.5px solid var(--line);border-bottom:1.5px solid var(--line);padding:28px 0}
+  .status .big{font-family:Lexend;font-weight:600;color:var(--navy);font-size:clamp(26px,5vw,38px);letter-spacing:.02em;margin:4px 0 14px}
+  .status p{margin:0 0 10px;line-height:1.55}
+  .status .okline{font-size:16px}
+  .status.bad .okline{color:var(--red)}
+  .logo-img{width:84px;height:84px;object-fit:contain;flex:none}
+  @media (max-width:700px){.logo-img{width:60px;height:60px}}
+  :focus-visible{outline:2px solid var(--red);outline-offset:2px}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;animation-duration:.01s!important;scroll-behavior:auto!important}}
+  @media (max-width:640px){#qr,.scan{display:none}}
+
+  /* ---- Added: larger text ---- */
+  .tools{display:flex;justify-content:flex-end;margin:18px 0 -18px}
+  .tbtn{display:inline-flex;align-items:center;gap:8px;font:600 16px Lexend,sans-serif;color:var(--navy);background:#fff;border:2px solid var(--navy);border-radius:999px;padding:10px 18px;min-height:46px;cursor:pointer}
+  .tbtn:hover{background:var(--band)}
+  .tbtn .aa{font-size:18px;line-height:1}
+  html.big .paper{zoom:1.25}
+  @media (max-width:700px){.tools{margin:14px 0 -10px}html.big .paper{zoom:1.15}}
+
+  /* ---- Added: staff mode ---- */
+  .staffbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;background:var(--navy);color:#fff;font-size:13px;padding:9px 14px;border-radius:6px;margin:0 0 18px}
+  .staffbar b{font-family:Lexend;font-weight:600;letter-spacing:.04em;text-transform:uppercase;font-size:12px}
+  .staffbar.bad{background:#FDECEA;color:#A3261A}
+  .finder{max-width:640px;border:1.5px dashed var(--navy-2);border-radius:8px;padding:14px 16px 12px;margin:0 0 22px;background:#FAFBFC}
+  .finder label{display:block;font-weight:700;font-size:13px;letter-spacing:.04em;color:var(--navy);text-transform:uppercase;margin-bottom:6px}
+  .finder input{width:100%;font:inherit;font-size:16px;color:var(--ink);padding:10px 12px;border:1.5px solid #C9D3DE;border-radius:6px;background:#fff;outline:none}
+  .finder input:focus{border-color:var(--navy)}
+  .results{margin-top:8px;display:grid;gap:4px}
+  .results button{display:flex;justify-content:space-between;gap:12px;align-items:baseline;text-align:left;width:100%;background:#fff;border:1px solid var(--band);border-radius:6px;padding:10px 12px;font:inherit;color:var(--navy);cursor:pointer}
+  .results button:hover{background:var(--band)}
+  .results button span{font-size:12px;color:var(--muted);white-space:nowrap}
+  .fnote{font-size:12px;color:var(--muted);margin-top:8px;min-height:16px}
+  .fnote.ok{color:var(--ok);font-weight:600}
+  .stafflink{display:block;text-align:right;font-size:11px;color:#9AA8B8;margin-top:10px;text-decoration:none}
+  .stafflink:hover{color:var(--navy);text-decoration:underline}  /* on a phone they're already on the paying device */
+</style>
+</head>
+<body>
+<!-- Filled in by server.js. Falls back to demo data when this file is opened on its own. -->
+<script type="application/json" id="boot"><?!= bootJson ?></script>
+
+<div class="paper">
+  <header>
+    <div class="title"><div class="l1" id="l1">Nordic Health Supplements</div><div class="l2" id="l2">Special Offers!</div></div>
+    <svg class="logo" id="logoSvg" viewBox="0 0 100 100" aria-label="Nordic Health">
+      <g fill="none" stroke-width="7">
+        <circle cx="50" cy="50" r="44" stroke="#2F7FC1" stroke-dasharray="34 242" transform="rotate(-90 50 50)"/>
+        <circle cx="50" cy="50" r="44" stroke="#2BA59B" stroke-dasharray="34 242" stroke-dashoffset="-35" transform="rotate(-90 50 50)"/>
+        <circle cx="50" cy="50" r="44" stroke="#7CBF4A" stroke-dasharray="34 242" stroke-dashoffset="-70" transform="rotate(-90 50 50)"/>
+        <circle cx="50" cy="50" r="44" stroke="#F2C230" stroke-dasharray="34 242" stroke-dashoffset="-105" transform="rotate(-90 50 50)"/>
+        <circle cx="50" cy="50" r="44" stroke="#EE8A2B" stroke-dasharray="34 242" stroke-dashoffset="-140" transform="rotate(-90 50 50)"/>
+        <circle cx="50" cy="50" r="44" stroke="#E0482B" stroke-dasharray="34 242" stroke-dashoffset="-175" transform="rotate(-90 50 50)"/>
+        <circle cx="50" cy="50" r="44" stroke="#9A4FA0" stroke-dasharray="34 242" stroke-dashoffset="-210" transform="rotate(-90 50 50)"/>
+        <circle cx="50" cy="50" r="44" stroke="#3B5BA8" stroke-dasharray="30 246" stroke-dashoffset="-245" transform="rotate(-90 50 50)"/>
+      </g>
+      <circle cx="50" cy="50" r="37" fill="#1E4A7A"/>
+      <text x="50" y="47" text-anchor="middle" fill="#fff" font-family="Lexend" font-size="11.5" font-weight="400">Nordic</text>
+      <text x="50" y="61" text-anchor="middle" fill="#fff" font-family="Lexend" font-size="11.5" font-weight="400">Health</text>
+    </svg>
+  </header>
+  <div class="tools"><button type="button" class="tbtn" id="textSize" aria-pressed="false"><span class="aa" aria-hidden="true">A+</span><span class="lbl">Larger text</span></button></div>
+
+  <nav class="steps" id="steps">
+    <button class="step" data-go="1"><span class="n">1</span><span class="lbl">Your details</span></button>
+    <button class="step" data-go="2"><span class="n">2</span><span class="lbl">Products</span></button>
+    <button class="step" data-go="3"><span class="n">3</span><span class="lbl">Pickup or shipping</span></button>
+    <button class="step" data-go="4"><span class="n">4</span><span class="lbl">Review &amp; pay</span></button>
+  </nav>
+
+  <div id="staffBar" class="staffbar hidden" role="status"></div>
+  <div id="demoFlag" class="demo hidden">Preview mode: nothing is saved and no payment is taken until this page runs on the server.</div>
+
+  <!-- STEP 1: details -->
+  <section id="s1" class="hidden">
+    <h2>Your details</h2>
+    <p class="sub">We use these to confirm your order and email your receipt.</p>
+    <div id="finder" class="finder hidden">
+      <label for="find">Staff: find an existing customer</label>
+      <input id="find" type="search" autocomplete="off" placeholder="Name, email or phone (at least 3 characters)">
+      <div class="results" id="results"></div>
+      <div class="fnote" id="fnote">Only a few matches are shown. Every search is logged.</div>
+    </div>
+    <form id="f1" novalidate>
+      <div class="bands">
+        <div class="band"><label for="name">Name</label><input id="name" autocomplete="name" placeholder="Full name" maxlength="100"></div>
+        <div class="band"><label for="email">Email address</label><input id="email" type="email" autocomplete="email" placeholder="name@example.com" maxlength="120"></div>
+        <div class="band"><label for="phone">Phone number</label><input id="phone" type="tel" autocomplete="tel" placeholder="+45 12 34 56 78" maxlength="30"></div>
+      </div>
+      <label class="consent"><input type="checkbox" id="consent"><span id="consentText"></span></label>
+      <div class="err" id="e1" role="alert"></div>
+      <div class="actions"><span></span><button class="btn primary" type="submit">Choose products &rarr;</button></div>
+    </form>
+  </section>
+
+  <!-- STEP 2: products -->
+  <section id="s2" class="hidden">
+    <h2>Choose your products</h2>
+    <p class="sub">Event prices apply to everything below.</p>
+    <div class="grid" id="grid"></div>
+    <div class="bar">
+      <button class="btn ghost" data-go="1">&larr; Back</button>
+      <div class="sum" id="sum" aria-live="polite"></div>
+      <button class="btn primary" id="to3" disabled>Continue &rarr;</button>
+    </div>
+  </section>
+
+  <!-- STEP 3: pickup or shipping -->
+  <section id="s3" class="hidden">
+    <h2>How would you like to get your order?</h2>
+    <p class="sub">Choose before paying, so the total includes any shipping.</p>
+    <div class="choices" role="radiogroup" aria-label="Pickup or shipping">
+      <label class="choice" id="cPickup">
+        <input type="radio" name="ful" value="pickup">
+        <span class="ct">Collect at the event</span><span class="cp">Free</span>
+        <span class="cd" id="pickupNote"></span>
+      </label>
+      <label class="choice" id="cShip">
+        <input type="radio" name="ful" value="shipping">
+        <span class="ct">Ship to my address</span><span class="cp" id="shipFee"></span>
+        <span class="cd">We post it to you after the event.</span>
+      </label>
+    </div>
+    <div id="addr" class="bands hidden">
+      <div class="band"><label for="a1">Street address</label><input id="a1" autocomplete="address-line1" maxlength="120" placeholder="Street and number"></div>
+      <div class="band"><label for="a2">Apartment, floor <span class="opt">(optional)</span></label><input id="a2" autocomplete="address-line2" maxlength="120"></div>
+      <div class="band"><label for="pc">Postcode</label><input id="pc" autocomplete="postal-code" maxlength="20"></div>
+      <div class="band"><label for="city">City</label><input id="city" autocomplete="address-level2" maxlength="60"></div>
+      <div class="band"><label for="ctry">Country</label><select id="ctry" autocomplete="country"></select></div>
+    </div>
+    <div class="err" id="e3" role="alert"></div>
+    <div class="actions">
+      <button class="btn ghost" data-go="2">&larr; Back</button>
+      <button class="btn primary" id="to4">Review order &rarr;</button>
+    </div>
+  </section>
+
+  <!-- STEP 4: review & pay -->
+  <section id="s4" class="hidden">
+    <h2>Review &amp; pay</h2>
+    <p class="sub">Check your order, then confirm to go to secure payment.</p>
+    <table class="sheet">
+      <thead><tr><th>Supplement</th><th class="num rrpcol">RRP</th><th class="num">Price</th><th class="num">Qty</th><th class="num">Total</th></tr></thead>
+      <tbody id="lines"></tbody>
+      <tfoot id="foot"></tfoot>
+    </table>
+    <div class="who four" id="who"></div>
+
+    <div id="confirmWrap">
+      <div class="err" id="e4" role="alert"></div>
+      <div class="actions">
+        <button class="btn ghost" data-go="3">&larr; Back</button>
+        <button class="btn primary" id="confirm">Confirm and pay</button>
+      </div>
+    </div>
+
+    <div id="payWrap" class="hidden">
+      <div class="paybox">
+        <div id="qr" aria-label="QR code that opens the payment page"></div>
+        <div>
+          <div class="okline">&#10003; Order <span id="oid"></span> reserved</div>
+          <div class="scan"><b>Scan to pay on your phone</b><span class="light">or pay on this device</span></div>
+          <div style="margin-top:18px"><a class="btn pay" id="payBtn" target="_top" rel="noopener">Pay <span id="payAmt"></span></a></div>
+          <div class="note" id="payNote"></div>
+        </div>
+      </div>
+      <div class="actions"><span></span><a class="link" id="newOrder" href="#" target="_top">Start a new order</a></div>
+    </div>
+  </section>
+
+  <!-- After returning from payment, or when the event is closed -->
+  <section id="s5" class="hidden">
+    <div class="status" id="statusBox" aria-live="polite"></div>
+    <div class="actions"><span></span><a class="link" id="newOrder2" href="#" target="_top">Start a new order</a></div>
+  </section>
+
+  <footer>
+    <p class="valid" id="footerNote"></p>
+    <div class="foot">
+      <div class="copy">&copy; Copyright 2026 Nordic Group. Reproduction may be made for personal use only. Systematic electronic or print reproduction and distribution including duplication of any material in this paper for a fee or for commercial purposes, or modification of the content of the paper are prohibited.</div>
+      <div class="country" id="country">DENMARK<small id="code"></small></div>
+    </div>
+    <a class="stafflink hidden" id="staffLink" target="_top">Staff login</a>
+  </footer>
+</div>
+
+<script>
+/* ---------- Data ----------
+   Code.gs injects the live event + products (Events and Products tabs) into the #boot tag.
+   Opened directly in a browser, the demo data below is used instead. */
+const DEMO = {
+  demo: true,
+  config: { event:"DK0926", title1:"Nordic Health Supplements", title2:"Special Offers!", country:"DENMARK", code:"DK0926",
+            currency:"EUR", allowPickup:true, pickupInstructions:"Collect from the Nordic Health stand. Show your order number.",
+            allowShipping:true, shippingFee:6, shipTo:["DK"], footerNote:"Offers only valid for products bought during this event",
+            sellerName:"Nordic Health", privacyUrl:"", paymentWindow:30 },
+  products: [
+    {id:"BRX-C", name:"Broccolox®", size:"80 caps", rrp:68.75, price:48, image:"bottle", left:null},
+    {id:"BRX-P", name:"Broccolox®", size:"80 g powder", rrp:68.75, price:48, image:"bottle", left:null},
+    {id:"NUX-C", name:"Nucleo-X™ +Zn", size:"60 caps", rrp:48.11, price:34, image:"bottle", left:null},
+    {id:"NUX-P", name:"Nucleo-X™", size:"45 g powder", rrp:48.11, price:34, image:"bottle-s", left:null},
+    {id:"GLY", name:"Glycine", size:"400 g", rrp:39.94, price:28, image:"tub", left:null},
+    {id:"GLN", name:"L-Glutamine", size:"300 g", rrp:37.44, price:26, image:"tub", left:null},
+    {id:"LCR", name:"Liposomal Curcumin & Resveratrol", size:"180 ml", rrp:44.60, price:31, image:"lipo", left:null},
+    {id:"LVC", name:"Liposomal Vitamin C", size:"150 ml", rrp:44.60, price:31, image:"lipo", left:null},
+    {id:"CRE", name:"Daily Creatine Mono", size:"450 g", rrp:58.05, price:40, image:"tub-t", left:null},
+    {id:"D3", name:"Daily D3", size:"30 ml", rrp:37.25, price:26, image:"dropper", left:null},
+    {id:"BBC-P", name:"Organic & Grass-fed Bone Broth Collagen", size:"250 g", rrp:56.19, price:39, image:"kraft", left:null},
+    {id:"BBC-C", name:"Organic & Grass-fed Bone Broth Collagen", size:"300 caps", rrp:56.19, price:39, image:"kraft-g", left:null},
+    {id:"BLV", name:"Organic & Grass-fed Beef Liver", size:"200 caps", rrp:57.70, price:40, image:"kraft-r", left:null},
+    {id:"ORG", name:"Organic & Grass-fed Organ Matrix", size:"200 caps", rrp:61.30, price:43, image:"kraft-r", left:null},
+    {id:"GTS", name:"Ginger & Turmeric Shots", size:"500 ml", rrp:17, price:14, image:"shot-y", left:3},
+    {id:"GTS-S", name:"Ginger & Turmeric Shots with Spirulina", size:"500 ml", rrp:17, price:14, image:"shot-g", left:0}
+  ]
+};
+let BOOT;
+try { BOOT = JSON.parse(document.getElementById("boot").textContent); } catch (e) { BOOT = DEMO; }
+const CFG = BOOT.config || {}, PRODUCTS = BOOT.products || [];
+const hasBackend = !BOOT.demo;
+
+/* ---------- Illustrations (swap for real photos by putting an image URL in the Products tab) ---------- */
+function art(kind){
+  if (/^https?:\/\//.test(kind)) return `<img src="${esc(kind)}" alt="">`;
+  const lbl = (y,h,w=30,x=45)=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="2" fill="#fff" stroke="#DCE3EC"/><circle cx="${x+w/2}" cy="${y+h/2-2}" r="${Math.min(w,h)/4}" fill="#2F6DB3"/><circle cx="${x+w/2}" cy="${y+h/2-2}" r="${Math.min(w,h)/4-2.5}" fill="none" stroke="#fff" stroke-width=".8"/>`;
+  const shadow = `<ellipse cx="60" cy="116" rx="34" ry="3" fill="#1E3A5F" opacity=".08"/>`;
+  const k = kind.split("-")[0], v = kind.split("-")[1];
+  if (k==="bottle"){ const s = v==="s"?0.88:1; return `<svg viewBox="0 0 120 120"><g transform="translate(${60-60*s} ${120-120*s}) scale(${s})">${shadow}<rect x="44" y="18" width="32" height="12" rx="2" fill="#EEF1F5" stroke="#CFD8E3"/><path d="M40 32q0-4 4-4h32q4 0 4 4v80q0 4-4 4H44q-4 0-4-4z" fill="#F7F9FB" stroke="#CFD8E3"/>${lbl(48,44,34,43)}<rect x="47" y="80" width="26" height="2" fill="#B9C6D6"/></g></svg>`; }
+  if (k==="tub"){ const t = v==="t"; return `<svg viewBox="0 0 120 120">${shadow}<rect x="${t?30:18}" y="${t?22:40}" width="${t?60:84}" height="10" rx="3" fill="#EEF1F5" stroke="#CFD8E3"/><path d="M${t?30:18} 32h${t?60:84}v78q0 6-6 6H${t?36:24}q-6 0-6-6z" fill="#F7F9FB" stroke="#CFD8E3"/>${lbl(t?46:50,t?42:34,t?40:44,t?40:38)}</svg>`; }
+  if (k==="lipo") return `<svg viewBox="0 0 120 120">${shadow}<rect x="51" y="4" width="18" height="12" rx="2" fill="#EEF1F5" stroke="#CFD8E3"/><path d="M46 22q0-6 6-6h16q6 0 6 6v90q0 4-4 4H50q-4 0-4-4z" fill="#F7F9FB" stroke="#CFD8E3"/>${lbl(34,52,24,48)}<rect x="51" y="92" width="18" height="1.5" fill="#B9C6D6"/></svg>`;
+  if (k==="dropper") return `<svg viewBox="0 0 120 120">${shadow}<rect x="51" y="30" width="18" height="20" rx="2" fill="#F4F4F4" stroke="#CCC"/><path d="M53 30v-6h14v6" fill="#fff" stroke="#CCC"/><rect x="44" y="50" width="32" height="66" rx="5" fill="#5A3316"/><rect x="44" y="64" width="32" height="34" fill="#fff"/><text x="60" y="84" text-anchor="middle" font-family="Lexend" font-size="7" fill="#1E3A5F">Daily D3</text></svg>`;
+  if (k==="kraft"){ const acc = v==="g"?"#6E8F3C":v==="r"?"#A0463B":"#C58A4A"; return `<svg viewBox="0 0 120 120">${shadow}<rect x="24" y="34" width="72" height="12" rx="3" fill="#C9A47B"/><rect x="26" y="46" width="68" height="68" rx="3" fill="#D9B98F"/><rect x="34" y="54" width="52" height="46" rx="1" fill="#F4EBDD"/><rect x="40" y="62" width="40" height="3" fill="${acc}"/><rect x="40" y="70" width="32" height="2" fill="#8C7A64"/><rect x="40" y="75" width="36" height="2" fill="#8C7A64"/><rect x="40" y="80" width="26" height="2" fill="#8C7A64"/><rect x="40" y="90" width="10" height="5" fill="#C8102E"/><rect x="43.5" y="90" width="2" height="5" fill="#fff"/><rect x="40" y="91.8" width="10" height="1.4" fill="#fff"/></svg>`; }
+  if (k==="shot"){ const c = v==="g"?"#3E6B2A":"#F0B323"; return `<svg viewBox="0 0 120 120">${shadow}<rect x="52" y="4" width="16" height="10" rx="1" fill="#E6E6E6" stroke="#BBB"/><path d="M53 14h14v14q12 6 12 18v64q0 6-6 6H47q-6 0-6-6V46q0-12 12-18z" fill="#EEF3F2" stroke="#C9D2D0"/><path d="M42 50h36v60q0 5-5 5H47q-5 0-5-5z" fill="${c}"/><rect x="47" y="62" width="26" height="30" fill="#fff"/><rect x="51" y="68" width="18" height="2" fill="#1E3A5F"/><rect x="51" y="73" width="14" height="1.5" fill="#8A97A6"/><rect x="51" y="84" width="7" height="4" fill="#C8102E"/></svg>`; }
+  return `<svg viewBox="0 0 120 120"></svg>`;
+}
+
+
+/* ---------- Helpers ---------- */
+const $ = s => document.querySelector(s);
+function esc(s){ return String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
+function money(n, cur){
+  cur = (cur || CFG.currency || "EUR").toUpperCase();
+  n = Math.round(n*100)/100;
+  const num = Number.isInteger(n) ? String(n) : n.toFixed(2);
+  const sym = {EUR:"€", GBP:"£", USD:"$"}[cur];
+  return sym ? sym + num : num + " " + cur;
+}
+const COUNTRIES = {DK:"Denmark", SE:"Sweden", NO:"Norway", FI:"Finland", DE:"Germany", NL:"Netherlands", GB:"United Kingdom", IE:"Ireland", FR:"France", AT:"Austria"};
+const state = { step:1, customer:{}, qty:{}, delivery:{}, order:null };
+
+function shippingCost(){ return state.delivery.method === "shipping" ? (CFG.shippingFee || 0) : 0; }
+function totals(){
+  let units=0, subtotal=0, rrp=0;
+  PRODUCTS.forEach(p => { const q = state.qty[p.id]||0; units+=q; subtotal+=q*p.price; rrp+=q*p.rrp; });
+  const shipping = shippingCost();
+  return { units, subtotal, shipping, total: subtotal + shipping, savings: rrp - subtotal };
+}
+function maxFor(p){ return p.left === null || p.left === undefined ? 20 : Math.min(20, p.left); }
+
+/* ---------- Navigation ---------- */
+function show(id){ ["s1","s2","s3","s4","s5"].forEach(s => $("#"+s).classList.toggle("hidden", s!==id)); }
+function go(n){
+  if (state.order && n < 4) return;                 // order reserved: lock earlier steps
+  if (n >= 2 && !validDetails(false)) n = 1;
+  if (n >= 3 && totals().units === 0) n = 2;
+  if (n >= 4 && !validDelivery(false)) n = 3;
+  state.step = n;
+  show("s"+n);
+  $("#steps").classList.remove("hidden");
+  document.querySelectorAll(".step").forEach(b => {
+    const i = +b.dataset.go;
+    b.classList.toggle("active", i===n);
+    b.classList.toggle("done", i<n && !state.order);
+  });
+  if (n===2) renderGrid();
+  if (n===3) renderDelivery();
+  if (n===4) renderReview();
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+document.addEventListener("click", e => {
+  const t = e.target.closest("[data-go]");
+  if (t && (!t.classList.contains("step") || t.classList.contains("done"))) { e.preventDefault(); go(+t.dataset.go); }
+});
+
+/* ---------- Step 1: details ---------- */
+function validDetails(showErr){
+  const name = $("#name").value.trim(), email = $("#email").value.trim(), phone = $("#phone").value.trim();
+  let msg = "";
+  if (name.length < 2) msg = "Enter your full name.";
+  else if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) msg = "Enter a valid email address, like name@example.com.";
+  else if (phone.replace(/\D/g,"").length < 6) msg = "Enter a phone number with at least 6 digits.";
+  else if (!$("#consent").checked) msg = "Tick the box so we can process your order.";
+  if (showErr) $("#e1").textContent = msg;
+  if (!msg) state.customer = { name, email, phone, consent:true };
+  return !msg;
+}
+$("#f1").addEventListener("submit", e => { e.preventDefault(); if (validDetails(true)) go(2); });
+
+/* ---------- Step 2: products ---------- */
+function renderGrid(){
+  $("#grid").innerHTML = PRODUCTS.map(p => {
+    const q = state.qty[p.id]||0, max = maxFor(p), out = max === 0;
+    const left = out ? "Sold out" : (p.left !== null && p.left !== undefined && p.left <= 5 ? `Only ${p.left} left` : "");
+    return `<div class="card ${q?"sel":""} ${out?"out":""}" data-id="${esc(p.id)}">
+      <div class="only">ONLY ${money(p.price)}</div>
+      <div class="pic">${art(p.image||"bottle")}</div>
+      <div class="size">${esc(p.size)}</div>
+      <div class="rule"></div>
+      <div class="pname">${esc(p.name)}</div>
+      <div class="rrp">regular price ${money(p.rrp)}</div>
+      <div class="left">${left}</div>
+      <div class="qty"><span class="add">${q?"In your order":(out?"Unavailable":"Add")}</span>
+        <div class="stepper"><button data-d="-1" aria-label="Remove one ${esc(p.name)}" ${out?"disabled":""}>&minus;</button><span>${q}</span><button data-d="1" aria-label="Add one ${esc(p.name)}" ${out||q>=max?"disabled":""}>+</button></div>
+      </div></div>`;
+  }).join("");
+  renderSum();
+}
+$("#grid").addEventListener("click", e => {
+  const b = e.target.closest("button[data-d]"); if (!b || b.disabled) return;
+  const card = b.closest(".card"), id = card.dataset.id;
+  const p = PRODUCTS.find(x => x.id === id), max = maxFor(p);
+  const q = Math.max(0, Math.min(max, (state.qty[id]||0) + +b.dataset.d));
+  state.qty[id] = q;
+  card.classList.toggle("sel", q>0);
+  card.querySelector(".stepper span").textContent = q;
+  card.querySelector(".add").textContent = q ? "In your order" : "Add";
+  card.querySelector('button[data-d="1"]').disabled = q >= max;
+  renderSum();
+});
+function renderSum(){
+  const t = totals();
+  $("#sum").innerHTML = t.units
+    ? `${t.units} item${t.units>1?"s":""} &middot; <b>${money(t.subtotal)}</b><span class="save">You save ${money(t.savings)}</span>`
+    : `<span style="color:var(--muted)">No products selected yet</span>`;
+  $("#to3").disabled = !t.units;
+}
+$("#to3").addEventListener("click", () => go(3));
+
+/* ---------- Step 3: pickup or shipping ---------- */
+function renderDelivery(){
+  $("#cPickup").classList.toggle("off", !CFG.allowPickup);
+  $("#cShip").classList.toggle("off", !CFG.allowShipping);
+  $("#pickupNote").textContent = CFG.pickupInstructions || "Collect from our stand. Bring your order number.";
+  $("#shipFee").textContent = CFG.shippingFee ? "+ " + money(CFG.shippingFee) : "Free";
+  if (!$("#ctry").options.length){
+    const list = (CFG.shipTo && CFG.shipTo.length) ? CFG.shipTo : Object.keys(COUNTRIES);
+    $("#ctry").innerHTML = list.map(c => `<option value="${esc(c)}">${esc(COUNTRIES[c] || c)}</option>`).join("");
+  }
+  // Only one option offered? Pick it for them.
+  if (!state.delivery.method){
+    if (CFG.allowPickup && !CFG.allowShipping) state.delivery.method = "pickup";
+    if (CFG.allowShipping && !CFG.allowPickup) state.delivery.method = "shipping";
+  }
+  document.querySelectorAll('input[name="ful"]').forEach(r => r.checked = r.value === state.delivery.method);
+  $("#addr").classList.toggle("hidden", state.delivery.method !== "shipping");
+}
+document.querySelectorAll('input[name="ful"]').forEach(r => r.addEventListener("change", () => {
+  state.delivery.method = r.value;
+  $("#addr").classList.toggle("hidden", r.value !== "shipping");
+  $("#e3").textContent = "";
+}));
+function validDelivery(showErr){
+  const m = state.delivery.method;
+  let msg = "";
+  if (m !== "pickup" && m !== "shipping") msg = "Choose pickup or shipping.";
+  else if (m === "shipping"){
+    const d = { method:m, line1:$("#a1").value.trim(), line2:$("#a2").value.trim(), postcode:$("#pc").value.trim(), city:$("#city").value.trim(), country:$("#ctry").value };
+    if (d.line1.length < 3) msg = "Enter your street address.";
+    else if (d.postcode.length < 3) msg = "Enter your postcode.";
+    else if (d.city.length < 2) msg = "Enter your city.";
+    if (!msg) state.delivery = d;
+  } else state.delivery = { method:"pickup" };
+  if (showErr) $("#e3").textContent = msg;
+  return !msg;
+}
+$("#to4").addEventListener("click", () => { if (validDelivery(true)) go(4); });
+
+/* ---------- Step 4: review & pay ---------- */
+function renderReview(){
+  const rows = PRODUCTS.filter(p => state.qty[p.id]);
+  $("#lines").innerHTML = rows.map(p => { const q = state.qty[p.id]; return `<tr>
+    <td>${esc(p.name)} (${esc(p.size)})</td><td class="num rrpcol rrpc">${money(p.rrp)}</td>
+    <td class="num">${money(p.price)}</td><td class="num">${q}</td><td class="num">${money(q*p.price)}</td></tr>`; }).join("");
+  const t = totals();
+  $("#foot").innerHTML =
+    (t.shipping ? `<tr class="sub-row"><td colspan="4" class="num">Shipping</td><td class="num">${money(t.shipping)}</td></tr>` : "") +
+    `<tr><td colspan="4" class="num">TOTAL</td><td class="num">${money(t.total)}</td></tr>
+     <tr class="save"><td colspan="5" class="num">You save ${money(t.savings)} compared with the regular price</td></tr>`;
+  const c = state.customer, d = state.delivery;
+  const where = d.method === "shipping"
+    ? `Ship to ${esc(d.line1)}${d.line2 ? ", " + esc(d.line2) : ""}, ${esc(d.postcode)} ${esc(d.city)}, ${esc(COUNTRIES[d.country] || d.country)}`
+    : "Collect at the event";
+  $("#who").innerHTML = `<div><small>Name</small><span>${esc(c.name)}</span></div><div><small>Email address</small><span>${esc(c.email)}</span></div><div><small>Phone number</small><span>${esc(c.phone)}</span></div><div><small>Delivery</small><span>${where}</span></div>`;
+  $("#confirm").textContent = "Confirm and pay " + money(t.total);
+}
+
+function call(fn, arg){
+  return fetch("/api/" + fn, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ arg }) })
+    .then(async r => { const d = await r.json().catch(() => ({})); if (!r.ok) throw new Error(d.error || "Something went wrong. Please try again."); return d; });
+}
+function submit(payload){
+  if (hasBackend) return call("submitOrder", payload);
+  return new Promise(resolve => setTimeout(() => {   // preview mode: pretend
+    const t = totals();
+    resolve({ orderId: "NH-" + CFG.code + "-DEMO", total: t.total, currency: CFG.currency, payUrl: "https://stripe.com/docs/testing" });
+  }, 700));
+}
+
+$("#confirm").addEventListener("click", async () => {
+  const btn = $("#confirm");
+  btn.disabled = true; btn.innerHTML = `<span class="spin"></span> Reserving your order`;
+  $("#e4").textContent = "";
+  const items = PRODUCTS.filter(p => state.qty[p.id]).map(p => ({ id:p.id, qty:state.qty[p.id] }));
+  try {
+    const res = await submit({ event: CFG.event, customer: state.customer, delivery: state.delivery, items });
+    state.order = res;
+    $("#confirmWrap").classList.add("hidden");
+    $("#payWrap").classList.remove("hidden");
+    $("#oid").textContent = res.orderId;
+    $("#payAmt").textContent = money(res.total, res.currency);
+    $("#payBtn").href = res.payUrl;
+    $("#payNote").textContent = `The payment page already shows the exact total. Your order is held for ${CFG.paymentWindow || 30} minutes and is confirmed by email once payment goes through.`;
+    $("#qr").innerHTML = "";
+    if (window.QRCode) new QRCode($("#qr"), { text: res.payUrl, width: 136, height: 136, colorDark: "#1E3A5F", colorLight: "#ffffff", correctLevel: QRCode.CorrectLevel.L });
+    document.querySelectorAll(".step").forEach(b => b.classList.remove("done"));
+  } catch (err) {
+    const m = err && err.message ? err.message : String(err);
+    $("#e4").textContent = m + " Nothing has been charged.";
+    btn.disabled = false; renderReview();
+    if (/sold out|Only \d+ left|no longer available/.test(m)) $("#e4").textContent += " Reload the page to see current stock.";
+  }
+});
+
+// With the backend, "Start a new order" is a plain link that reloads the page (fresh stock, clean address).
+if (hasBackend && BOOT.appUrl) ["#newOrder","#newOrder2"].forEach(s => $(s).href = BOOT.appUrl + "?event=" + encodeURIComponent(CFG.event || ""));
+function resetOrder(e){
+  if (hasBackend && BOOT.appUrl) return;             // let the link navigate
+  e.preventDefault();
+  state.customer = {}; state.qty = {}; state.delivery = {}; state.order = null;
+  $("#f1").reset(); $("#e1").textContent = "";
+  $("#confirmWrap").classList.remove("hidden"); $("#payWrap").classList.add("hidden");
+  $("#confirm").disabled = false;
+  go(1);
+}
+$("#newOrder").addEventListener("click", resetOrder);
+$("#newOrder2").addEventListener("click", resetOrder);
+
+/* ---------- Return from payment ---------- */
+function statusPage(html, bad){
+  $("#steps").classList.add("hidden");
+  show("s5");
+  const box = $("#statusBox");
+  box.classList.toggle("bad", !!bad);
+  box.innerHTML = html;
+}
+async function handleReturn(info){
+  const ref = esc(info.orderRef);
+  if (!hasBackend){ statusPage(`<div class="okline">Preview</div><p>Order ${ref} would be checked here.</p>`); return; }
+  if (info.result === "cancel"){
+    statusPage(`<div class="okline">Payment not completed</div><div class="big">${ref}</div><p>You have not been charged. Checking whether you can still pay for this order…</p>`, true);
+    try {
+      const r = await call("resumePayment", info.orderRef);
+      if (r && r.payUrl){
+        statusPage(`<div class="okline">Payment not completed</div><div class="big">${ref}</div>
+          <p>You have not been charged. Your order is still held, so you can finish paying now.</p>
+          <p style="margin-top:18px"><a class="btn pay" href="${esc(r.payUrl)}" target="_top" rel="noopener">Return to payment</a></p>`, true);
+      } else {
+        statusPage(`<div class="okline">Order not paid</div><div class="big">${ref}</div><p>This order has expired and you have not been charged. Start a new order to try again.</p>`, true);
+      }
+    } catch (e) { statusPage(`<div class="okline">Payment not completed</div><div class="big">${ref}</div><p>You have not been charged. Start a new order to try again.</p>`, true); }
+    return;
+  }
+  statusPage(`<div class="okline">Confirming your payment…</div><div class="big">${ref}</div>`);
+  for (let i = 0; i < 6; i++){
+    try {
+      const r = await call("checkOrder", info.orderRef);
+      if (r.status === "Paid"){
+        const how = r.fulfilment === "Shipping"
+          ? "We'll ship your order after the event."
+          : esc(CFG.pickupInstructions || "Collect your order at our stand. Show this order number.");
+        statusPage(`<div class="okline">&#10003; Payment received</div>
+          <p>Your order number</p><div class="big">${ref}</div>
+          <p><b>${money(r.total, r.currency)}</b> paid. ${how}</p>
+          <p>A confirmation has been emailed to you. Keep it, or take a screenshot of this page.</p>`);
+        return;
+      }
+      if (r.status === "Expired" || r.status === "NotFound") break;
+    } catch (e) { /* try again */ }
+    await new Promise(res => setTimeout(res, 3000));
+  }
+  statusPage(`<div class="okline">Still confirming</div><div class="big">${ref}</div>
+    <p>We haven't received confirmation of this payment yet. If you paid, you'll get an email within a few minutes. If you don't, show this order number at our stand.</p>`, true);
+}
+
+/* ---------- Staff mode: find an existing customer ---------- */
+const DEMO_CUSTOMERS = [   // preview only (open the file with #staff at the end of the address)
+  {id:1, name:"Anna Jensen", email:"anna.jensen@example.com", phone:"+45 20 11 22 33"},
+  {id:2, name:"Anders Nielsen", email:"anders@example.com", phone:"+45 31 44 55 66"},
+  {id:3, name:"Mette Hansen", email:"mette.h@example.com", phone:"+45 42 77 88 99"}
+];
+function staffCall(fn, arg){
+  if (hasBackend) return call(fn, arg);
+  return new Promise(res => setTimeout(() => {
+    if (fn === "searchCustomers"){
+      const q = String(arg).toLowerCase();
+      res({ results: DEMO_CUSTOMERS.filter(c => (c.name+" "+c.email).toLowerCase().includes(q) || c.phone.replace(/\D/g,"").includes(q.replace(/\D/g,"")||"x"))
+        .map(c => ({ id:c.id, name:c.name, hint:c.email[0]+"•••"+c.email.slice(c.email.indexOf("@"))+" · ends "+c.phone.slice(-2) })) });
+    } else res(DEMO_CUSTOMERS.find(c => c.id === arg));
+  }, 250));
+}
+let findSeq = 0, findTimer = null;
+function setupStaff(){
+  if (BOOT.demo && location.hash === "#staff") BOOT.staff = { email: "you@nordic (preview)" };
+  if (BOOT.staff){
+    $("#staffBar").innerHTML = `<b>Staff mode</b><span>${esc(BOOT.staff.email)}</span>`;
+    $("#staffBar").classList.remove("hidden");
+    $("#finder").classList.remove("hidden");
+  } else if (BOOT.staffDenied){
+    $("#staffBar").classList.add("bad");
+    const c = BOOT.staffCheck || {}, who = c.email ? esc(c.email) : "";
+    const why = {
+      noEmail: "Google did not share which account you are signed in with. Usually this means your account is in a different Google Workspace from the account that owns this Sheet, or you opened the public link instead of the staff link.",
+      notListed: `Google says you are signed in as <u>${who}</u>, but that exact address is not on the Staff tab. Check for spelling, or an alias (use the address Google shows here).`,
+      notActive: `You are signed in as <u>${who}</u> and are on the Staff tab, but Active is not set to TRUE.`,
+      noStaffTab: "This Sheet has no Staff tab yet. Run Orders ▸ Set up sheets."
+    }[c.reason] || "This Google account is not on the Staff list.";
+    $("#staffBar").innerHTML = `<b>Not signed in as staff</b><span>${why}</span>`;
+    $("#staffBar").classList.remove("hidden");
+  } else if (BOOT.staffUrl){
+    $("#staffLink").href = BOOT.staffUrl;
+    $("#staffLink").classList.remove("hidden");
+  }
+}
+$("#find").addEventListener("input", () => {
+  clearTimeout(findTimer);
+  const q = $("#find").value.trim();
+  $("#fnote").className = "fnote";
+  if (q.length < 3){ $("#results").innerHTML = ""; $("#fnote").textContent = "Only a few matches are shown. Every search is logged."; return; }
+  findTimer = setTimeout(async () => {
+    const seq = ++findSeq;
+    $("#fnote").textContent = "Searching…";
+    try {
+      const r = await staffCall("searchCustomers", q);
+      if (seq !== findSeq) return;                       // a newer search has started
+      $("#results").innerHTML = r.results.map(c => `<button type="button" data-id="${esc(c.id)}">${esc(c.name)}<span>${esc(c.hint)}</span></button>`).join("");
+      $("#fnote").textContent = r.results.length
+        ? (r.more ? "Showing the first matches. Type more to narrow down." : "Pick the customer to fill in their details.")
+        : "No match. Fill in the details below instead.";
+    } catch (err) {
+      if (seq === findSeq){ $("#results").innerHTML = ""; $("#fnote").textContent = (err && err.message) || String(err); }
+    }
+  }, 350);
+});
+$("#results").addEventListener("click", async e => {
+  const b = e.target.closest("button[data-id]"); if (!b) return;
+  $("#fnote").textContent = "Filling in…";
+  try {
+    const c = await staffCall("getCustomer", +b.dataset.id);
+    $("#name").value = c.name || ""; $("#email").value = c.email || ""; $("#phone").value = c.phone || "";
+    $("#consent").checked = false;                       // the customer must tick this themselves
+    $("#results").innerHTML = ""; $("#find").value = "";
+    $("#fnote").className = "fnote ok";
+    $("#fnote").textContent = "Details filled in. Ask the customer to check them and tick the box.";
+    $("#e1").textContent = "";
+  } catch (err) { $("#fnote").textContent = (err && err.message) || String(err); }
+});
+
+/* ---------- Larger / smaller text ----------
+   Starts normal every time the page opens, so the next customer on a shared tablet starts fresh. */
+(function(){
+  const b = $("#textSize");
+  b.addEventListener("click", () => {
+    const big = !document.documentElement.classList.contains("big");
+    document.documentElement.classList.toggle("big", big);
+    b.setAttribute("aria-pressed", String(big));
+    b.querySelector(".aa").textContent = big ? "A−" : "A+";
+    b.querySelector(".lbl").textContent = big ? "Smaller text" : "Larger text";
+  });
+})();
+
+/* ---------- Init ---------- */
+(function init(){
+  if (CFG.title1) $("#l1").textContent = CFG.title1;
+  if (CFG.title2) $("#l2").textContent = CFG.title2;
+  if (CFG.logoUrl && /^https:\/\//.test(CFG.logoUrl)) $("#logoSvg").outerHTML = `<img class="logo-img" src="${esc(CFG.logoUrl)}" alt="${esc(CFG.company || "")}">`;
+  $("#country").firstChild.textContent = CFG.country || "";
+  $("#code").textContent = CFG.code || "";
+  $("#footerNote").textContent = CFG.footerNote || "";
+  const seller = esc(CFG.sellerName || CFG.company || "We");
+  $("#consentText").innerHTML = `I agree that ${seller} stores my name, email, phone number and delivery address to process this order.` +
+    (CFG.privacyUrl ? ` <a href="${esc(CFG.privacyUrl)}" target="_blank" rel="noopener">Privacy notice</a>` : "");
+  if (BOOT.demo) $("#demoFlag").classList.remove("hidden");
+  setupStaff();
+
+  if (BOOT.closed){
+    statusPage(`<div class="okline">Ordering is closed</div><p>This event isn't taking orders right now. Ask a member of staff at the stand for help.</p>`, true);
+    $("#newOrder2").classList.add("hidden");
+    return;
+  }
+  if (BOOT.returnInfo){ handleReturn(BOOT.returnInfo); return; }
+  go(1);
+})();
+</script>
+</body>
+</html>
